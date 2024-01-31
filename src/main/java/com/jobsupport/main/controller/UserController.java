@@ -24,7 +24,7 @@ public class UserController {
 			throw new Exception("User Object cant be null...!!!");
 		}
 		else {
-			return new ResponseEntity<String>(userService.addClient(userDto),HttpStatus.CREATED);
+			return new ResponseEntity<String>(userService.addUser(userDto),HttpStatus.CREATED);
 		}
 	}
 }

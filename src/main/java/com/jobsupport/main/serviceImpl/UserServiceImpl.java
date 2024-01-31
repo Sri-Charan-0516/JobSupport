@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService{
 	private UserRepository userRepository;
 
 	@Override
-	public String addClient(UserDto userDto) {
+	public String addUser(UserDto userDto) {
 		User user=User.builder()
 				.firstname(userDto.getFirstname())
 				.lastname(userDto.getLastname())
