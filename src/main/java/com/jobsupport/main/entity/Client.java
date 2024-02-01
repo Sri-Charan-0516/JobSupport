@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Builder
-public class User {
+public class Client {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
@@ -37,6 +37,8 @@ public class User {
 	private LocalDate dob;
 	
 	private String gender;
+	
+	private String role;
 
 	private String description;
 
