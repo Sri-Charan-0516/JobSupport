@@ -11,29 +11,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jobsupport.main.dto.ClientDto;
-import com.jobsupport.main.entity.Client;
-import com.jobsupport.main.service.ClientService;
+import com.jobsupport.main.entity.User;
+import com.jobsupport.main.service.UserService;
 
 @RestController
-@RequestMapping("/api/user")
-@CrossOrigin(origins="http://localhost:4200/")
 public class UserController {
 	
 	@Autowired
-	private ClientService clientService;
+	private UserService userService;
 	
-	@PostMapping
-	public ResponseEntity<Client> addClient(@RequestBody ClientDto clientDto) throws Exception {
+	@PostMapping("/addClient")
+	public ResponseEntity<User> addClient(@RequestBody ClientDto clientDto) throws Exception {
 		if(clientDto==null) {
 			throw new Exception("User Object cant be null...!!!");
 		}
 		else {
-			return new ResponseEntity<Client>(clientService.addClient(clientDto),HttpStatus.CREATED);
+			return new ResponseEntity<User>(userService.addClient(clientDto),HttpStatus.CREATED);
 		}
 	}
 	
 	@PostMapping("/login/{email}/{password}")
-	public ResponseEntity<Client> login(@PathVariable String email,@PathVariable String password) throws Exception{
-		return new ResponseEntity<Client>(clientService.login(email, password),HttpStatus.ACCEPTED);
+	public ResponseEntity<User> login(@PathVariable String email,@PathVariable String password) throws Exception{
+		return new ResponseEntity<User>(userService.login(email, password),HttpStatus.ACCEPTED);
 	}
 }
