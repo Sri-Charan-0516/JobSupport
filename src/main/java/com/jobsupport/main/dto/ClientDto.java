@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDto {
+public class ClientDto {
+	
 	private String firstname;
 
 	private String lastname;
@@ -22,11 +23,11 @@ public class UserDto {
 
 	private String password;
 
-	private String role;
-
 	private String country;
 	
 	private LocalDate dob;
 	
 	private String gender;
+	
+	private String role;
 }
