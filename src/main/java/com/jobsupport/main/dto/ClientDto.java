@@ -1,7 +1,6 @@
 package com.jobsupport.main.dto;
 
 import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +15,8 @@ public class ClientDto {
 	private String firstname;
 
 	private String lastname;
+	
+	private String fullname;
 
 	private long phonenumber;
 
@@ -30,4 +31,5 @@ public class ClientDto {
 	private String gender;
 	
 	private String role;
+
 }

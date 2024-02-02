@@ -19,15 +19,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-	
-	@Autowired
-	private JwtAuthenticationEntryPoint authenticationEntryPoint;
 
 	@Autowired
-	private JwtRequestFilter jwtRequestFilter;
-	
+	private  JwtAuthenticationEntryPoint authenticationEntryPoint;
 	@Autowired
-	private UserDetailsService service;
+    private  JwtRequestFilter jwtRequestFilter;
+	@Autowired
+    private  UserDetailsService service;
 	
 	@Bean
 	AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception {
