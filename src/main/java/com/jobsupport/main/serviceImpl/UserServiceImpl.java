@@ -14,12 +14,14 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserRepository userRepository;
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	public String getEncodedPassword(String password) {
 		return passwordEncoder.encode(password);
 	}
+  
 	@Override
 	public User addClient(ClientDto clientDto) {
 		User user=User.builder()
@@ -36,16 +38,5 @@ public class UserServiceImpl implements UserService{
 				.build();
 		return  userRepository.save(user);
 	}
-
-//	@Override
-//	public User login(String email, String password) throws Exception {
-//		 User user = userRepository.findById(email).orElseThrow(()->  new Exception("Email not found..!!!"));
-//		 if(user.getPassword().equals(password)) {
-//			 return user;
-//		 }
-//		 else {
-//			 throw new Exception("Inavlid Credentials...!!!"); 
-//		 }
-//	}
 
 }

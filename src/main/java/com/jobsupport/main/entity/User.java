@@ -21,14 +21,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 public class User implements UserDetails{
-	
-/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	//	@GeneratedValue(strategy = GenerationType.UUID)
-//	private String id;
 	@Id
 	private String email;
 	
