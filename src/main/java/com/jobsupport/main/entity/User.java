@@ -9,8 +9,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,24 +22,23 @@ import lombok.NoArgsConstructor;
 @Builder
 public class User implements UserDetails{
 	
-	/**
+/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+	//	@GeneratedValue(strategy = GenerationType.UUID)
+//	private String id;
 	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	private String id;
-
+	private String email;
+	
 	private String firstname;
 
 	private String lastname;
 	
-	private String fullname=firstname+lastname;
+	private String fullname;
 
 	private long phonenumber;
-
-	private String email;
 
 	private String password;
 
@@ -57,11 +54,17 @@ public class User implements UserDetails{
 
 	private String domain;
 
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		Set<Authority> authorities = new HashSet<>();
+			 authorities.add(new Authority("ROLE_"+this.role));
+	        return authorities;
+	}
 
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.email;
 	}
 
 	@Override
@@ -86,11 +89,5 @@ public class User implements UserDetails{
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

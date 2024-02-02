@@ -7,5 +7,5 @@ public interface UserService {
 	
 	public User addClient(ClientDto clientDto);
 	
-	public User login(String email, String password) throws Exception;
+//	public User login(String email, String password) throws Exception;
 }

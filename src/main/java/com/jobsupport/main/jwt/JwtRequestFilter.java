@@ -17,13 +17,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class JwtRequestFilter extends OncePerRequestFilter{
+public class JwtRequestFilter extends OncePerRequestFilter {
 
-	public static String CURRENT_USER = "";
+	public static String CURRENT_USER;
 
 	@Autowired
 	private JwtUtil jwtUtil;
-
 	@Autowired
 	private JwtServiceImplementation jwtServiceImplementation;
 
@@ -40,7 +39,7 @@ public class JwtRequestFilter extends OncePerRequestFilter{
 			jwtToken = requestTokenHeader.substring(7);
 			try {
 				email = jwtUtil.getUsernameFromToken(jwtToken);
-				 CURRENT_USER = email; 
+				CURRENT_USER = email;
 			} catch (IllegalArgumentException e) {
 				System.out.println("Unable to get JWT Token");
 			} catch (ExpiredJwtException e) {
@@ -49,10 +48,11 @@ public class JwtRequestFilter extends OncePerRequestFilter{
 		} else {
 			System.out.println("JWT token does not start with Bearer");
 		}
-		if (email != null && SecurityContextHolder.getContext().getAuthentication() == null)
-		{
+
+		if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
 			UserDetails userDetails = jwtServiceImplementation.loadUserByUsername(email);
-			
+
 			if (jwtUtil.validateToken(jwtToken, userDetails)) {
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());
@@ -61,7 +61,7 @@ public class JwtRequestFilter extends OncePerRequestFilter{
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 			}
 		}
+
 		filterChain.doFilter(request, response);
 	}
-
 }

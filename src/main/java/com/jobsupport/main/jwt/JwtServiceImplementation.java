@@ -14,46 +14,43 @@ import com.jobsupport.main.entity.User;
 import com.jobsupport.main.repository.UserRepository;
 
 @Service
-public class JwtServiceImplementation implements UserDetailsService {
+public class JwtServiceImplementation  implements UserDetailsService{
 
 	@Autowired
-	private UserRepository userRepository;
-	
+    private  UserRepository userRepository;
 	@Autowired
-	private JwtUtil jwtUtil;
-	
+    private  JwtUtil jwtUtil;
 	@Autowired
-	private AuthenticationManager authenticationManager;
-	
-	public JwtResponse createJwtToken(JwtRequest jwtRequest) throws Exception {
-		String email = jwtRequest.getEmail();
-		String password = jwtRequest.getPassword();
-		authenticate(email, password);
-		
-		UserDetails userDetails = loadUserByUsername(email);
-		String generateToken = jwtUtil.generateToken(userDetails);
-		
-		return new JwtResponse(generateToken);
-	}
-	
-	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		User user = userRepository.findByEmail(email).get();
-		if(user!=null) {
-			return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),user.getAuthorities());
-		}
-		else {
-			throw new UsernameNotFoundException("User Not found with email :" + user);
-		}
-	}
-	
-	private void authenticate(String email, String password) throws Exception {
-		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-		} catch (DisabledException e) {
-			throw new Exception("USER_DISABLED", e);
-		} catch (BadCredentialsException e) {
-			throw new Exception("INVALID_CREDENTIALS", e);
-		}
-	}
+    private  AuthenticationManager authenticationManager;
+
+    public JwtResponse createJwtToken(JwtRequest jwtRequest) throws Exception {
+        String email = jwtRequest.getEmail();
+        String password = jwtRequest.getPassword();
+        authenticate(email, password);
+
+        UserDetails userDetails = loadUserByUsername(email);
+        User user = userRepository.findById(email).get();
+        String generatedToken = jwtUtil.generateToken(userDetails);
+        return new JwtResponse(user,generatedToken);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findById(email).orElseThrow(() ->
+                new UsernameNotFoundException("User Not found with email: " + email));
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(), user.getPassword(), user.getAuthorities());
+    }
+
+    private void authenticate(String email, String password) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+        } catch (DisabledException e) {
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }
+    }
 }
+
