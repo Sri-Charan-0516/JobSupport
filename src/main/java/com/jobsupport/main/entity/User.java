@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,8 +22,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 public class User implements UserDetails{
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id

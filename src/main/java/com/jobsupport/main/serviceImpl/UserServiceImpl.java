@@ -14,14 +14,14 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserRepository userRepository;
-
+	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	public String getEncodedPassword(String password) {
 		return passwordEncoder.encode(password);
 	}
-  
+
 	@Override
 	public User addClient(ClientDto clientDto) {
 		User user=User.builder()
