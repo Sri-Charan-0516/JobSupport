@@ -14,5 +14,7 @@ public interface JobPostRepository extends JpaRepository<JobPost, String>{
 	@Query("select j from JobPost j where j.email=?1")
 	List<JobPost> findBymail(String email);
 
-	long countByStatusAndEmail(String string, String mail);
+	@Query("select count(j) from JobPost j where j.status = ?1 and j.email = ?2")
+	Long countByStatusAndEmail(String status, String email);
+
 }

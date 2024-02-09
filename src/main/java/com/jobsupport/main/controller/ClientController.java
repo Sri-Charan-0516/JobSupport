@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jobsupport.main.dto.JobCountDto;
 import com.jobsupport.main.dto.JobPostDto;
 import com.jobsupport.main.entity.JobPost;
 import com.jobsupport.main.service.ClientService;
@@ -34,5 +35,13 @@ public class ClientController {
 		else {
 			throw new Exception("Email cant be null..!!!");
 		}
+	}
+	
+	@GetMapping("/jobCounts/{mail}")
+	public JobCountDto getJobCounts(@PathVariable String mail) throws Exception {
+		long totalJobsPosted = clientService.getTotalJobsPosted(mail);
+        long totalCompletedJobs = clientService.getTotalCompletedJobs(mail);
+        long totalPendingJobs = clientService.getTotalPendingJobs(mail);
+        return new JobCountDto(totalJobsPosted, totalCompletedJobs, totalPendingJobs);
 	}
 }

@@ -1,9 +1,8 @@
 package com.jobsupport.main.serviceImpl;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.jobsupport.main.dto.JobPostDto;
@@ -49,15 +48,22 @@ public class ClientServiceImpl implements ClientService{
 
 	@Override
     public long getTotalCompletedJobs(String mail) {
-        // Count jobs with status 'Completed' associated with the user's email
-        return jobPostRepository.countByStatusAndEmail("Completed", mail);
+        try {
+            return jobPostRepository.countByStatusAndEmail("Completed", mail);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return 0; // Default value
+        }
     }
 
-    // Logic for getting total pending jobs for a user
     @Override
     public long getTotalPendingJobs(String mail) {
-        // Count jobs with status 'Pending' associated with the user's email
-        return jobPostRepository.countByStatusAndEmail("Pending", mail);
+        try {
+            return jobPostRepository.countByStatusAndEmail("Pending", mail);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return 0; // Default value
+        }
     }
 	
 }
