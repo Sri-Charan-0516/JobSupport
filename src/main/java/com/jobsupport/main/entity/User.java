@@ -3,7 +3,6 @@ package com.jobsupport.main.entity;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,13 +23,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class User implements UserDetails{
 	
-/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	//	@GeneratedValue(strategy = GenerationType.UUID)
-//	private String id;
 	@Id
 	private String email;
 	
