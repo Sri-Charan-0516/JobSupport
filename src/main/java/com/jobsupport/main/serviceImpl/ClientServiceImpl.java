@@ -5,8 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.jobsupport.main.dto.JobPostDto;
 import com.jobsupport.main.entity.JobPost;
+import com.jobsupport.main.exceptions.InvalidIdException;
+import com.jobsupport.main.exceptions.ResourceNotFoundException;
 import com.jobsupport.main.repository.JobPostRepository;
 import com.jobsupport.main.service.ClientService;
 
@@ -17,29 +18,23 @@ public class ClientServiceImpl implements ClientService{
 	private JobPostRepository  jobPostRepository;
 	
 	@Override
-	public JobPost postJob(JobPostDto jobPostDto) {
-		JobPost jobPost=JobPost.builder()
-				.jobtitle(jobPostDto.getJobtitle())
-				.description(jobPostDto.getDescription())
-				.skills(jobPostDto.getSkills())
-				.duration(jobPostDto.getDuration())
-				.email(jobPostDto.getEmail())
-				.status(jobPostDto.getStatus())
-				.build();
+	public JobPost postJob(JobPost jobPost) {
 		return jobPostRepository.save(jobPost);
 	}
 
 	@Override
-	public List<JobPost> getAllJobs(String email) {
+	public List<JobPost> getAllJobs(String email) throws ResourceNotFoundException {
 		List<JobPost> list = jobPostRepository.findBymail(email);
-		return list;
+		if(list.isEmpty()) {
+			throw new ResourceNotFoundException("No Jobs Found..!!!");
+		}else return list;
 	}
 
 	@Override
-	public long getTotalJobsPosted(String mail) throws Exception {
+	public long getTotalJobsPosted(String mail) throws ResourceNotFoundException {
 		List<JobPost> list = jobPostRepository.findBymail(mail);
 		if(list.isEmpty()) {
-			throw new Exception("No Jobs Posted...!!!");
+			throw new ResourceNotFoundException("No Jobs Posted...!!!");
 		}
 		else {
 			return jobPostRepository.count();
@@ -65,5 +60,12 @@ public class ClientServiceImpl implements ClientService{
             return 0; // Default value
         }
     }
+
+	@Override
+	public String deleteJob(String jobTitle) throws InvalidIdException {
+		JobPost jobPost = jobPostRepository.findById(jobTitle).orElseThrow(()-> new InvalidIdException("No Works Found..!!"));
+		jobPostRepository.delete(jobPost);
+		return "Job Deleted...!!!";
+	}
 	
 }
