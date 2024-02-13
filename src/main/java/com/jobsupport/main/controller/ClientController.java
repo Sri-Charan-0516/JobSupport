@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jobsupport.main.dto.JobCountDto;
 import com.jobsupport.main.entity.JobPost;
+import com.jobsupport.main.entity.User;
 import com.jobsupport.main.exceptions.InvalidIdException;
 import com.jobsupport.main.service.ClientService;
 

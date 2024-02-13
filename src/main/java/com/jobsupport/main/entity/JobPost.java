@@ -21,6 +21,6 @@ public class JobPost {
 	private String duration;
 	private String email;
 	private String status;
-	private String cuurency;
+	private String currency;
 	private long price;
 }
