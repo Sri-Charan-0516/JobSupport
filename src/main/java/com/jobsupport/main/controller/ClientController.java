@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,5 +56,20 @@ public class ClientController {
 		else {
 			return new ResponseEntity<String>(clientService.deleteJob(title),HttpStatus.ACCEPTED); 
 		}
+	}
+	
+	@GetMapping("/getJob/{title}")
+	public ResponseEntity<JobPost> getJob(@PathVariable String title) throws InvalidIdException{
+		if(title.isEmpty()) {
+			throw new InvalidIdException("No title found..!!!");
+		}
+		else {
+			return new ResponseEntity<JobPost>(clientService.getJob(title),HttpStatus.ACCEPTED);
+		}
+	}
+	
+	@PutMapping("/update/{jobtitle}")
+	public ResponseEntity<JobPost> update(@PathVariable String jobtitle,@RequestBody JobPost jobPost) throws InvalidIdException{
+		return new ResponseEntity<JobPost>(clientService.updateJob(jobtitle, jobPost),HttpStatus.OK);
 	}
 }
