@@ -18,4 +18,8 @@ public interface ClientService {
     public long getTotalPendingJobs(String mail);
     
     public String deleteJob(String jobTitle) throws InvalidIdException;
+    
+    public JobPost getJob(String jobtitle);
+    
+    public JobPost updateJob(String jobtitle, JobPost jobPost) throws InvalidIdException;
 }

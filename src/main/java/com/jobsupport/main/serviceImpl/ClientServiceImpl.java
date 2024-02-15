@@ -67,5 +67,24 @@ public class ClientServiceImpl implements ClientService{
 		jobPostRepository.delete(jobPost);
 		return "Job Deleted...!!!";
 	}
+
+	@Override
+	public JobPost getJob(String jobtitle) {
+		JobPost post = jobPostRepository.findById(jobtitle).get();
+		return post;
+	}
+
+	@Override
+	public JobPost updateJob(String jobtitle, JobPost jobPost) throws InvalidIdException {
+		JobPost post = jobPostRepository.findById(jobtitle).orElseThrow(()-> new InvalidIdException("No Title Found..!!"));
+		post.setJobtitle(jobPost.getJobtitle());
+		post.setDescription(jobPost.getDescription());
+		post.setSkills(jobPost.getSkills());
+		post.setDuration(jobPost.getDuration());
+		post.setCurrency(jobPost.getCurrency());
+		post.setPrice(jobPost.getPrice());
+		post.setStatus(jobPost.getStatus());
+		return jobPostRepository.save(post);
+	}
 	
 }
